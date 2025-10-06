@@ -103,7 +103,7 @@ Add this configuration to your AI agent's MCP settings:
   "mcpServers": {
     "openrouter-image": {
       "command": "node",
-      "args": ["/Users/jude/Documents/MY_WORK/OpenRouter_Image_MCP/dist/index.js"],
+      "args": ["/path/to/openrouter-image-mcp/dist/index.js"],
       "env": {
         "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
         "OPENROUTER_MODEL": "google/gemini-2.5-flash-lite-preview-09-2025"
@@ -120,10 +120,12 @@ Add this configuration to your AI agent's MCP settings:
 - **Windsurf**: MCP settings file
 - **Other agents**: Check your agent's MCP documentation
 
+> **Note**: Replace `/path/to/openrouter-image-mcp/` with the actual path where you cloned or installed this project.
+
 ### 💡 **Pro Tips for Local Setup**
 
 #### **🎯 Path Management**
-- **Absolute paths work best**: `/Users/jude/Documents/MY_WORK/OpenRouter_Image_MCP/dist/index.js`
+- **Absolute paths work best**: `/path/to/openrouter-image-mcp/dist/index.js`
 - **Avoid relative paths**: May break when switching directories
 - **Use your actual path**: Update the examples with your real project location
 
@@ -147,13 +149,13 @@ node dist/index.js
 **❌ "Command not found"**
 ```bash
 # ✅ Use absolute path to node
-"/usr/local/bin/node" "/Users/jude/Documents/MY_WORK/OpenRouter_Image_MCP/dist/index.js"
+"/usr/local/bin/node" "/path/to/openrouter-image-mcp/dist/index.js"
 ```
 
 **❌ "File not found"**
 ```bash
 # ✅ Verify the built file exists
-ls -la /Users/jude/Documents/MY_WORK/OpenRouter_Image_MCP/dist/index.js
+ls -la /path/to/openrouter-image-mcp/dist/index.js
 
 # 📝 Rebuild if missing
 npm run build
