@@ -114,7 +114,7 @@ Add this configuration to your AI agent's MCP settings:
 ```
 
 **Configuration files:**
-- **Claude Code**: `/Users/jude/.claude.json`
+- **Claude Code**: `~/.claude.json`
 - **Cursor**: `~/.cursor/mcp.json`
 - **Cline**: `~/.cline/mcp.json`
 - **Windsurf**: MCP settings file
@@ -149,7 +149,7 @@ node dist/index.js
 **❌ "Command not found"**
 ```bash
 # ✅ Use absolute path to node
-"/usr/local/bin/node" "/path/to/openrouter-image-mcp/dist/index.js"
+"$(which node)" "/path/to/openrouter-image-mcp/dist/index.js"
 ```
 
 **❌ "File not found"**
