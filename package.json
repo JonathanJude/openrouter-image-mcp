@@ -1,0 +1,73 @@
+{
+  "name": "openrouter-image-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for image analysis using OpenRouter's vision models",
+  "main": "dist/index.js",
+  "bin": {
+    "openrouter-image-mcp": "dist/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "openrouter",
+    "image-analysis",
+    "vision",
+    "ai",
+    "claude",
+    "gpt",
+    "screenshot-analysis",
+    "webpage-analysis",
+    "mobile-app-analysis"
+  ],
+  "author": "OpenRouter Image MCP Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/openrouter-image-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/openrouter-image-mcp/issues"
+  },
+  "homepage": "https://github.com/your-username/openrouter-image-mcp#readme",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    ".env.example"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "axios": "^1.6.0",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
