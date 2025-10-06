@@ -11,6 +11,8 @@
 
 A blazing-fast ⚡ MCP (Model Context Protocol) server that enables AI agents to **see and understand images** using OpenRouter's cutting-edge vision models. Perfect for screenshots, photos, diagrams, and any visual content! 📸✨
 
+</div>
+
 ---
 
 ## 🌟 What Makes This Special?
@@ -340,14 +342,15 @@ Specialized for mobile application UI/UX analysis!
 
 ---
 
-## 💰 Cost-Effective Model Recommendations
+## 💰 Vision Model Recommendations
 
-| Model | Cost | Quality | Best For |
-|-------|------|--------|----------|
-| 🌟 `google/gemini-2.5-flash-lite-preview-09-2025` | 💰 **~60-70% cheaper** | ⭐⭐⭐⭐⭐ | **Best Value!** |
-| 🧠 `anthropic/claude-sonnet-4` | 💰💰 Medium | ⭐⭐⭐⭐⭐ | Privacy-focused |
-| 🔥 `anthropic/claude-sonnet-4.5` | 💰💰💰 Higher | ⭐⭐⭐⭐⭐+ | Maximum quality |
-| 🚀 `qwen/qwen3-vl-235b-a22b-instruct` | 💰 Low | ⭐⭐⭐⭐ | Great for coding |
+| Model | Cost | Vision Quality | Best For |
+|-------|------|----------------|----------|
+| 🆓 `google/gemini-2.0-flash-exp:free` | **FREE** | ⭐⭐⭐⭐ | General analysis, docs |
+| 🆓 `meta-llama/llama-3.2-90b-vision-instruct` | **FREE** | ⭐⭐⭐⭐ | Charts, diagrams |
+| 🌟 `google/gemini-2.5-flash-lite-preview-09-2025` | 💰 **Very Low** | ⭐⭐⭐⭐⭐ | **Best value!** |
+| 🧠 `anthropic/claude-3-5-sonnet-20241022` | 💰💰 Medium | ⭐⭐⭐⭐⭐ | Detailed analysis |
+| 🔥 `anthropic/claude-3-5-haiku-20241022` | 💰💰💰 Higher | ⭐⭐⭐⭐⭐ | High accuracy |
 
 ---
 
@@ -377,31 +380,7 @@ npm run lint
 npm run format
 ```
 
-### 📁 Project Structure
-
-```
-openrouter-image-mcp/
-├── 📁 src/
-│   ├── 📁 config/          # Configuration management
-│   ├── 📁 tools/           # MCP tool implementations
-│   │   ├── analyze-image.ts
-│   │   ├── analyze-webpage.ts
-│   │   └── analyze-mobile-app.ts
-│   ├── 📁 types/           # TypeScript type definitions
-│   ├── 📁 utils/           # Utility functions
-│   │   ├── image-processor.ts
-│   │   ├── openrouter-client.ts
-│   │   └── logger.ts
-│   └── 📄 index.ts         # Main server entry point
-├── 📁 dist/               # Built files
-├── 📄 package.json
-├── 📄 README.md
-├── 📄 LICENSE
-├── 📄 .env.example
-└── 📁 .github/
-    └── 📁 workflows/       # CI/CD
-```
-
+#
 ---
 
 ## 🧪 Testing
@@ -436,35 +415,7 @@ echo '{"type":"url","data":"https://example.com/image.png","prompt":"What do you
 
 ## 🤝 Contributing
 
-We welcome all contributions! 🎉 Whether you're fixing bugs, adding features, or improving documentation, your help is appreciated!
-
-### 🚀 How to Contribute
-
-1. **🍴 Fork** the repository
-2. **🌿 Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **💻 Make** your changes
-4. **🧪 Add** tests if applicable
-5. **✅ Ensure** all tests pass: `npm test`
-6. **📝 Commit** your changes: `git commit -m 'Add amazing feature'`
-7. **📤 Push** to the branch: `git push origin feature/amazing-feature`
-8. **🔄 Open** a Pull Request!
-
-### 🎯 Areas Where We Need Help
-
-- **🧪 More comprehensive test coverage**
-- **📚 Documentation improvements**
-- **🌍 Internationalization support**
-- **🚀 Performance optimizations**
-- **🔧 Additional image processing features**
-- **📊 More output format options**
-
-### 📋 Development Guidelines
-
-- **📝 Follow** the existing code style
-- **🧪 Write** tests for new features
-- **📚 Update** documentation when needed
-- **💬 Use** clear commit messages
-- **🎯 Keep** changes focused and minimal
+Contributions welcome! Fork the repo, make changes, and submit a pull request. Please follow the existing code style and add tests for new features.
 
 ---
 
@@ -536,63 +487,11 @@ curl -H "Authorization: Bearer $OPENROUTER_API_KEY" \
 
 ---
 
-## 📊 Performance & Benchmarks
-
-| Metric | Value | Notes |
-|--------|-------|-------|
-| ⚡ **Startup Time** | ~2-3 seconds | Server ready time |
-| 🖼️ **Image Processing** | <1 second | For 10MB images |
-| 🤖 **API Response** | 1-5 seconds | Depends on model |
-| 💰 **Cost per Analysis** | $0.002-0.01 | With Gemini Lite |
-| 📈 **Success Rate** | 99.9% | With retry logic |
-| 🛡️ **Uptime** | 99.9% | Production ready |
-
----
-
-## 🌟 Roadmap
-
-### 🚀 Coming Soon
-
-- **🎨 More image formats** (TIFF, BMP, SVG)
-- **📊 Advanced analytics** (color analysis, object detection)
-- **🔄 Batch processing** (analyze multiple images)
-- **🌐 Webhook support** (async processing)
-- **📱 Mobile app** (on-the-go analysis)
-- **🔌 Plugin ecosystem** (custom analyzers)
-
-### 💡 Future Ideas
-
-- **🎭 Style transfer** and artistic filters
-- **📝 OCR integration** for text extraction
-- **🔍 Face detection** and blur for privacy
-- **📊 Data visualization** from charts/graphs
-- **🌍 Multi-language** support
-- **⚡ Real-time streaming** analysis
-
----
 
 ## 📄 License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- **🤖 OpenRouter** for providing amazing vision models
-- **🧠 Anthropic** for Claude models
-- **🔍 Google** for Gemini models
-- **🚀 Model Context Protocol** team
-- **🌟 All contributors** who make this project better!
-
----
-
-## 📞 Support & Community
-
-- **🐛 Issues**: [GitHub Issues](https://github.com/your-username/openrouter-image-mcp/issues)
-- **💬 Discussions**: [GitHub Discussions](https://github.com/your-username/openrouter-image-mcp/discussions)
-- **📖 Documentation**: [Wiki](https://github.com/your-username/openrouter-image-mcp/wiki)
-- **🌟 Star us** if you find this useful! ⭐
-
----
 
 <div align="center">
 
@@ -601,5 +500,3 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 **[⭐ Star this repo](https://github.com/your-username/openrouter-image-mcp) • [🐛 Report Issues](https://github.com/your-username/openrouter-image-mcp/issues) • [💡 Suggest Features](https://github.com/your-username/openrouter-image-mcp/discussions)**
 
 Made with ❤️ by the open-source community
-
-</div>
