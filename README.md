@@ -94,49 +94,9 @@ RETRY_ATTEMPTS=3
 
 ---
 
-## 🤖 **Universal MCP Configuration**
+## 🔧 MCP Configuration
 
-### 📋 **Universal JSON for All AI Agents**
-
-```json
-{
-  "mcpServers": {
-    "openrouter-image": {
-      "command": "node",
-      "args": ["/Users/jude/Documents/MY_WORK/OpenRouter_Image_MCP/dist/index.js"],
-      "env": {
-        "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
-        "OPENROUTER_MODEL": "google/gemini-2.5-flash-lite-preview-09-2025"
-      }
-    }
-  }
-}
-```
-
-### 🎯 **Quick Setup for Different AI Agents**
-
-#### **🚀 Claude Code**
-Add to `/Users/jude/.claude.json` or project-specific settings:
-
-```json
-{
-  "mcp": {
-    "servers": {
-      "openrouter-image": {
-        "command": "node",
-        "args": ["/Users/jude/Documents/MY_WORK/OpenRouter_Image_MCP/dist/index.js"],
-        "env": {
-          "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
-          "OPENROUTER_MODEL": "google/gemini-2.5-flash-lite-preview-09-2025"
-        }
-      }
-    }
-  }
-}
-```
-
-#### **🔧 Cursor**
-Add to your MCP configuration file (usually `~/.cursor/mcp.json`):
+Add this configuration to your AI agent's MCP settings:
 
 ```json
 {
@@ -153,59 +113,12 @@ Add to your MCP configuration file (usually `~/.cursor/mcp.json`):
 }
 ```
 
-#### **⚡ Cline**
-Add to your Cline settings (usually `~/.cline/mcp.json`):
-
-```json
-{
-  "mcpServers": {
-    "openrouter-image": {
-      "command": "node",
-      "args": ["/Users/jude/Documents/MY_WORK/OpenRouter_Image_MCP/dist/index.js"],
-      "env": {
-        "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
-        "OPENROUTER_MODEL": "google/gemini-2.5-flash-lite-preview-09-2025"
-      }
-    }
-  }
-}
-```
-
-#### **🎯 Kilo Code**
-Add to your Kilo MCP configuration:
-
-```json
-{
-  "mcpServers": {
-    "openrouter-image": {
-      "command": "node",
-      "args": ["/Users/jude/Documents/MY_WORK/OpenRouter_Image_MCP/dist/index.js"],
-      "env": {
-        "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
-        "OPENROUTER_MODEL": "google/gemini-2.5-flash-lite-preview-09-2025"
-      }
-    }
-  }
-}
-```
-
-#### **🌬️ Windsurf**
-Add to your Windsurf MCP configuration:
-
-```json
-{
-  "mcpServers": {
-    "openrouter-image": {
-      "command": "node",
-      "args": ["/Users/jude/Documents/MY_WORK/OpenRouter_Image_MCP/dist/index.js"],
-      "env": {
-        "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
-        "OPENROUTER_MODEL": "google/gemini-2.5-flash-lite-preview-09-2025"
-      }
-    }
-  }
-}
-```
+**Configuration files:**
+- **Claude Code**: `/Users/jude/.claude.json`
+- **Cursor**: `~/.cursor/mcp.json`
+- **Cline**: `~/.cline/mcp.json`
+- **Windsurf**: MCP settings file
+- **Other agents**: Check your agent's MCP documentation
 
 ### 💡 **Pro Tips for Local Setup**
 
