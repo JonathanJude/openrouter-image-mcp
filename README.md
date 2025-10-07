@@ -40,8 +40,11 @@ A blazing-fast ⚡ MCP (Model Context Protocol) server that enables AI agents to
 # 🌟 Option 1: Install from npm (recommended)
 npm install -g openrouter-image-mcp
 
-# 🛠️ Option 2: Clone and build locally
-git clone https://github.com/your-username/openrouter-image-mcp.git
+# 🚀 Option 2: Use without installation (npx)
+npx openrouter-image-mcp
+
+# 🛠️ Option 3: Clone and build locally
+git clone https://github.com/JonathanJude/openrouter-image-mcp.git
 cd openrouter-image-mcp
 npm install
 npm run build
@@ -50,6 +53,18 @@ npm install -g .
 
 ### Configuration ⚙️
 
+The MCP server requires an OpenRouter API key. You can configure it in several ways:
+
+#### **Method 1: Environment Variables (Recommended)**
+```bash
+# 🔑 Set your API key
+export OPENROUTER_API_KEY=sk-or-v1-your-api-key-here
+
+# 🎯 Set model (uses free model by default)
+export OPENROUTER_MODEL=google/gemini-2.0-flash-exp:free
+```
+
+#### **Method 2: .env File**
 ```bash
 # 📋 Copy the environment template
 cp .env.example .env
@@ -58,18 +73,23 @@ cp .env.example .env
 nano .env
 ```
 
-Add your OpenRouter credentials:
+Add your OpenRouter credentials to `.env`:
 
 ```bash
 # 🔑 Required
 OPENROUTER_API_KEY=sk-or-v1-your-api-key-here
-OPENROUTER_MODEL=google/gemini-2.5-flash-lite-preview-09-2025
 
-# 🎛️ Optional (with defaults)
+# 🆓 Model (FREE by default - great for getting started!)
+OPENROUTER_MODEL=google/gemini-2.0-flash-exp:free
+
+# 🎛️ Optional settings
 LOG_LEVEL=info
 MAX_IMAGE_SIZE=10485760
 RETRY_ATTEMPTS=3
 ```
+
+#### **Method 3: Direct Configuration in MCP Client**
+Add the API key directly in your MCP client configuration (see examples below).
 
 ---
 
@@ -96,8 +116,70 @@ RETRY_ATTEMPTS=3
 
 ## 🔧 MCP Configuration
 
-Add this configuration to your AI agent's MCP settings:
+### **Option 1: Using npm Installation (Recommended)**
 
+After installing via `npm install -g openrouter-image-mcp`, use this configuration:
+
+#### **For Claude Code**
+Add to `~/.claude.json`:
+```json
+{
+  "mcp": {
+    "servers": {
+      "openrouter-image": {
+        "command": "openrouter-image-mcp",
+        "env": {
+          "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
+          "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
+        }
+      }
+    }
+  }
+}
+```
+
+#### **For Claude Desktop**
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "openrouter-image": {
+      "command": "openrouter-image-mcp",
+      "env": {
+        "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
+        "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
+      }
+    }
+  }
+}
+```
+
+#### **For Other MCP Clients**
+- **Cursor**: `~/.cursor/mcp.json`
+- **Cline**: `~/.cline/mcp.json`
+- **Windsurf**: MCP settings file
+- **Other agents**: Check your agent's MCP documentation
+
+### **Option 2: Using npx (No Installation Required)**
+
+```json
+{
+  "mcpServers": {
+    "openrouter-image": {
+      "command": "npx",
+      "args": ["openrouter-image-mcp"],
+      "env": {
+        "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
+        "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
+      }
+    }
+  }
+}
+```
+
+### **Option 3: Local Development**
+
+If you cloned the repo locally:
 ```json
 {
   "mcpServers": {
@@ -106,21 +188,14 @@ Add this configuration to your AI agent's MCP settings:
       "args": ["/path/to/openrouter-image-mcp/dist/index.js"],
       "env": {
         "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
-        "OPENROUTER_MODEL": "google/gemini-2.5-flash-lite-preview-09-2025"
+        "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
       }
     }
   }
 }
 ```
 
-**Configuration files:**
-- **Claude Code**: `~/.claude.json`
-- **Cursor**: `~/.cursor/mcp.json`
-- **Cline**: `~/.cline/mcp.json`
-- **Windsurf**: MCP settings file
-- **Other agents**: Check your agent's MCP documentation
-
-> **Note**: Replace `/path/to/openrouter-image-mcp/` with the actual path where you cloned or installed this project.
+> **🎯 Pro Tip**: Replace the API key with your actual OpenRouter key. The free model works great for most use cases!
 
 ### 💡 **Pro Tips for Local Setup**
 
@@ -261,11 +336,21 @@ Specialized for mobile application UI/UX analysis!
 
 | Model | Cost | Vision Quality | Best For |
 |-------|------|----------------|----------|
-| 🆓 `google/gemini-2.0-flash-exp:free` | **FREE** | ⭐⭐⭐⭐ | General analysis, docs |
-| 🆓 `meta-llama/llama-3.2-90b-vision-instruct` | **FREE** | ⭐⭐⭐⭐ | Charts, diagrams |
-| 🌟 `google/gemini-2.5-flash-lite-preview-09-2025` | 💰 **Very Low** | ⭐⭐⭐⭐⭐ | **Best value!** |
-| 🧠 `anthropic/claude-3-5-sonnet-20241022` | 💰💰 Medium | ⭐⭐⭐⭐⭐ | Detailed analysis |
-| 🔥 `anthropic/claude-3-5-haiku-20241022` | 💰💰💰 Higher | ⭐⭐⭐⭐⭐ | High accuracy |
+| 🆓 `google/gemini-2.0-flash-exp:free` | **FREE** | ⭐⭐⭐⭐⭐ | **Great for beginners!** General analysis, docs |
+| 🆓 `meta-llama/llama-3.2-90b-vision-instruct` | **FREE** | ⭐⭐⭐⭐ | Charts, diagrams, technical content |
+| 🌟 `google/gemini-2.5-flash-lite-preview-09-2025` | 💰 **Very Low** | ⭐⭐⭐⭐⭐ | **Best value!** High quality at low cost |
+| 🧠 `anthropic/claude-3-5-sonnet-20241022` | 💰💰 Medium | ⭐⭐⭐⭐⭐ | Detailed analysis, complex reasoning |
+| 🔥 `anthropic/claude-3-5-haiku-20241022` | 💰💰💰 Higher | ⭐⭐⭐⭐⭐ | High accuracy, professional use |
+
+### **🎯 Recommended Models**
+- **🆓 Start with FREE models**: `google/gemini-2.0-flash-exp:free` works excellently for most use cases
+- **💰 Upgrade when needed**: Move to paid models only if you need higher accuracy or specific features
+- **🔥 Best performance**: `anthropic/claude-3-5-sonnet-20241022` for professional analysis
+
+### **💡 Cost Tips**
+- Free models handle ~80% of use cases perfectly
+- Paid models cost ~$0.001-0.01 per image
+- Monitor usage at [OpenRouter Dashboard](https://openrouter.ai)
 
 ---
 
