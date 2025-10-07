@@ -14,6 +14,7 @@ describe('Config', () => {
     // Set required environment variables for testing
     process.env.OPENROUTER_API_KEY = 'test-api-key';
     process.env.OPENROUTER_MODEL = 'test-model';
+    process.env.LOG_LEVEL = 'info'; // Set explicit log level for testing
   });
 
   afterEach(() => {
