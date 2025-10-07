@@ -49,12 +49,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/openrouter-image-mcp.git"
+    "url": "https://github.com/JonathanJude/openrouter-image-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/openrouter-image-mcp/issues"
+    "url": "https://github.com/JonathanJude/openrouter-image-mcp/issues"
   },
-  "homepage": "https://github.com/your-username/openrouter-image-mcp#readme",
+  "homepage": "https://github.com/JonathanJude/openrouter-image-mcp#readme",
   "files": [
     "dist/**/*",
     "README.md",
