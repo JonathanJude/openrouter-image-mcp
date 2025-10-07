@@ -37,11 +37,11 @@ A blazing-fast ⚡ MCP (Model Context Protocol) server that enables AI agents to
 ### Installation 📦
 
 ```bash
-# 🌟 Option 1: Install from npm (recommended)
-npm install -g openrouter-image-mcp
-
-# 🚀 Option 2: Use without installation (npx)
+# 🌟 Option 1: Use immediately with npx (recommended)
 npx openrouter-image-mcp
+
+# 🚀 Option 2: Install globally for frequent use
+npm install -g openrouter-image-mcp
 
 # 🛠️ Option 3: Clone and build locally
 git clone https://github.com/JonathanJude/openrouter-image-mcp.git
@@ -50,6 +50,8 @@ npm install
 npm run build
 npm install -g .
 ```
+
+> **💡 Why npx is recommended**: No installation required, always gets the latest version, and works perfectly for MCP server usage!
 
 ### Configuration ⚙️
 
@@ -116,9 +118,9 @@ Add the API key directly in your MCP client configuration (see examples below).
 
 ## 🔧 MCP Configuration
 
-### **Option 1: Using npm Installation (Recommended)**
+### **Option 1: Using npx (Recommended - No Installation Required)**
 
-After installing via `npm install -g openrouter-image-mcp`, use this configuration:
+The easiest way to use this MCP server is with npx, which automatically downloads and runs the package without any installation:
 
 #### **For Claude Code**
 Add to `~/.claude.json`:
@@ -127,7 +129,8 @@ Add to `~/.claude.json`:
   "mcp": {
     "servers": {
       "openrouter-image": {
-        "command": "openrouter-image-mcp",
+        "command": "npx",
+        "args": ["openrouter-image-mcp"],
         "env": {
           "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
           "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
@@ -144,7 +147,8 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 {
   "mcpServers": {
     "openrouter-image": {
-      "command": "openrouter-image-mcp",
+      "command": "npx",
+      "args": ["openrouter-image-mcp"],
       "env": {
         "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
         "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
@@ -160,26 +164,45 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 - **Windsurf**: MCP settings file
 - **Other agents**: Check your agent's MCP documentation
 
-### **Option 2: Using npx (No Installation Required)**
+**✨ Benefits of npx:**
+- 🚀 **No installation needed** - works immediately
+- 🔄 **Always latest version** - automatically updates
+- 📱 **Cross-platform** - works everywhere Node.js is installed
+- 🧹 **Clean system** - no global packages required
 
+### **Option 2: Global Installation (For Frequent Users)**
+
+If you plan to use this MCP server frequently, install it globally:
+
+```bash
+npm install -g openrouter-image-mcp
+```
+
+Then use this configuration:
 ```json
 {
-  "mcpServers": {
-    "openrouter-image": {
-      "command": "npx",
-      "args": ["openrouter-image-mcp"],
-      "env": {
-        "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
-        "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
+  "mcp": {
+    "servers": {
+      "openrouter-image": {
+        "command": "openrouter-image-mcp",
+        "env": {
+          "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
+          "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
+        }
       }
     }
   }
 }
 ```
 
+**Benefits of global installation:**
+- ⚡ **Faster startup** - no download time
+- 🌐 **Works offline** - once installed
+- 🔧 **Simpler command** - shorter configuration
+
 ### **Option 3: Local Development**
 
-If you cloned the repo locally:
+If you cloned the repo locally for development:
 ```json
 {
   "mcpServers": {
@@ -196,6 +219,8 @@ If you cloned the repo locally:
 ```
 
 > **🎯 Pro Tip**: Replace the API key with your actual OpenRouter key. The free model works great for most use cases!
+
+> **💡 Recommendation**: Start with **npx** (Option 1) - it's the easiest and most reliable way to get started!
 
 ### 💡 **Pro Tips for Local Setup**
 
@@ -258,16 +283,38 @@ echo "OPENROUTER_API_KEY=sk-or-v1-your-key" > .env
 
 ### With Claude Code 🤖
 
+Add this to your `~/.claude.json`:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "openrouter-image": {
+        "command": "npx",
+        "args": ["openrouter-image-mcp"],
+        "env": {
+          "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
+          "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
+        }
+      }
+    }
+  }
+}
+```
+
+### With Claude Desktop 🖥️
+
 Add this to your `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "openrouter-image": {
-      "command": "openrouter-image-mcp",
+      "command": "npx",
+      "args": ["openrouter-image-mcp"],
       "env": {
         "OPENROUTER_API_KEY": "sk-or-v1-your-api-key-here",
-        "OPENROUTER_MODEL": "google/gemini-2.5-flash-lite-preview-09-2025"
+        "OPENROUTER_MODEL": "google/gemini-2.0-flash-exp:free"
       }
     }
   }

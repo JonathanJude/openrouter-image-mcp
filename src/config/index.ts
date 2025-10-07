@@ -1,3 +1,4 @@
+import { config as loadEnv } from 'dotenv';
 import { OpenRouterConfig, ServerConfig } from '../types/index.js';
 
 export class Config {
@@ -6,6 +7,9 @@ export class Config {
   private serverConfig: ServerConfig;
 
   private constructor() {
+    // Load environment variables from .env file
+    loadEnv();
+    
     this.validateEnvironment();
     this.openRouterConfig = {
       apiKey: process.env.OPENROUTER_API_KEY!,

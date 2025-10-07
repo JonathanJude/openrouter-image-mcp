@@ -1,16 +1,18 @@
+#!/usr/bin/env node
+
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
-  ListToolsRequestSchema,
-  CallToolRequestSchema,
-  Tool,
+    CallToolRequestSchema,
+    ListToolsRequestSchema,
+    Tool,
 } from '@modelcontextprotocol/sdk/types.js';
 import { Config } from './config/index.js';
-import { OpenRouterClient } from './utils/openrouter-client.js';
-import { Logger } from './utils/logger.js';
 import { handleAnalyzeImage } from './tools/analyze-image.js';
-import { handleAnalyzeWebpage } from './tools/analyze-webpage.js';
 import { handleAnalyzeMobileApp } from './tools/analyze-mobile-app.js';
+import { handleAnalyzeWebpage } from './tools/analyze-webpage.js';
+import { Logger } from './utils/logger.js';
+import { OpenRouterClient } from './utils/openrouter-client.js';
 
 async function main() {
   const logger = Logger.getInstance();
