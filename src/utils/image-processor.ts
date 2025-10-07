@@ -38,20 +38,48 @@ export class ImageProcessor {
   }
 
   private async processBase64Image(data: string, mimeType?: string): Promise<{ data: string; mimeType: string; size: number }> {
-    // Remove data URL prefix if present
-    const base64Data = data.replace(/^data:image\/[a-z]+;base64,/, '');
-    const buffer = Buffer.from(base64Data, 'base64');
+    try {
+      // Remove data URL prefix if present
+      const base64Data = data.replace(/^data:image\/[a-z]+;base64,/, '');
 
-    // Detect MIME type if not provided
-    const detectedMimeType = mimeType || await this.detectMimeType(buffer);
+      // Validate base64 data
+      if (!base64Data || base64Data.length === 0) {
+        throw new Error('Empty or invalid base64 data provided');
+      }
 
-    this.logger.debug(`Processed base64 image, size: ${buffer.length}, type: ${detectedMimeType}`);
+      // Check if base64 data is reasonable size (warn if >10MB)
+      const estimatedSize = Math.ceil(base64Data.length * 0.75); // Base64 is ~33% larger
+      if (estimatedSize > 10 * 1024 * 1024) {
+        this.logger.warn(`Large base64 image detected: ${estimatedSize} bytes. Processing may take time.`);
+      }
 
-    return {
-      data: base64Data,
-      mimeType: detectedMimeType,
-      size: buffer.length,
-    };
+      // Create buffer and validate
+      let buffer: Buffer;
+      try {
+        buffer = Buffer.from(base64Data, 'base64');
+      } catch (error) {
+        throw new Error('Invalid base64 encoding provided');
+      }
+
+      // Validate buffer size
+      if (buffer.length === 0) {
+        throw new Error('Base64 data resulted in empty buffer');
+      }
+
+      // Detect MIME type if not provided
+      const detectedMimeType = mimeType || await this.detectMimeType(buffer);
+
+      this.logger.debug(`Processed base64 image, size: ${buffer.length}, type: ${detectedMimeType}`);
+
+      return {
+        data: base64Data,
+        mimeType: detectedMimeType,
+        size: buffer.length,
+      };
+    } catch (error) {
+      this.logger.error('Failed to process base64 image', error);
+      throw new Error(`Base64 image processing failed: ${(error as Error).message}`);
+    }
   }
 
   private async processFileImage(filePath: string): Promise<{ data: string; mimeType: string; size: number }> {

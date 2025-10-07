@@ -28,8 +28,16 @@ export async function handleAnalyzeImage(
 
     logger.info(`Starting image analysis for type: ${imageInput.type}`);
 
-    // Process the image
-    const processedImage = await imageProcessor.processImage(imageInput);
+    // Add timeout for image processing (30 seconds)
+    const processTimeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Image processing timed out after 30 seconds')), 30000);
+    });
+
+    // Process the image with timeout
+    const processedImage = await Promise.race([
+      imageProcessor.processImage(imageInput),
+      processTimeoutPromise
+    ]) as { data: string; mimeType: string; size: number };
 
     // Validate image type
     if (!imageProcessor.isValidImageType(processedImage.mimeType)) {
@@ -43,13 +51,20 @@ export async function handleAnalyzeImage(
       throw new Error(`Image size ${processedImage.size} exceeds maximum allowed size ${maxImageSize}`);
     }
 
-    // Analyze the image
-    const result = await openRouterClient.analyzeImage(
+    // Add timeout for the API call (120 seconds)
+    const apiTimeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Image analysis timed out after 2 minutes')), 120000);
+    });
+
+    // Analyze the image with timeout
+    const analysisPromise = openRouterClient.analyzeImage(
       processedImage.data,
       processedImage.mimeType,
       options.prompt || 'Analyze this image in detail. Describe what you see, including objects, people, text, and any notable features.',
       options
     );
+
+    const result = await Promise.race([analysisPromise, apiTimeoutPromise]);
 
     if (!result.success) {
       throw new Error(result.error || 'Failed to analyze image');
@@ -70,6 +85,20 @@ export async function handleAnalyzeImage(
     };
   } catch (error) {
     logger.error('Image analysis failed', error);
+
+    // Check if it's a timeout error
+    if (error instanceof Error && error.message.includes('timed out')) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Error: ${error.message}. The image may be too large or the server is experiencing delays.`,
+          },
+        ],
+        isError: true,
+      };
+    }
+
     return {
       content: [
         {

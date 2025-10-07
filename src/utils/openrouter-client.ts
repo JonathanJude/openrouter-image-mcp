@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { OpenRouterConfig, ImageAnalysisResult } from '../types/index.js';
+import { ImageAnalysisResult, OpenRouterConfig } from '../types/index.js';
 import { Logger } from './logger.js';
 
 export class OpenRouterClient {
@@ -20,7 +20,9 @@ export class OpenRouterClient {
         'HTTP-Referer': 'https://github.com/openrouter-image-mcp',
         'X-Title': 'OpenRouter Image MCP',
       },
-      timeout: 60000, // 60 seconds
+      timeout: 120000, // 120 seconds - increased timeout for large images
+      maxContentLength: 50 * 1024 * 1024, // 50MB max content length
+      maxBodyLength: 50 * 1024 * 1024, // 50MB max body length
     });
   }
 
@@ -51,12 +53,18 @@ export class OpenRouterClient {
 
       // Check if model supports vision
       const model = models.find((m: any) => m.id === modelId);
+      const modelLower = modelId.toLowerCase();
       const supportsVision = model?.architecture?.modality?.includes('vision') ||
+                            model?.architecture?.modality?.includes('image') ||
                             model?.capabilities?.vision ||
-                            modelId.toLowerCase().includes('vision') ||
-                            modelId.toLowerCase().includes('claude-3') ||
-                            modelId.toLowerCase().includes('gpt-4-vision') ||
-                            modelId.toLowerCase().includes('gemini-pro-vision');
+                            modelLower.includes('vision') ||
+                            modelLower.includes('claude-3') ||
+                            modelLower.includes('claude-3.5') ||
+                            modelLower.includes('gpt-4-vision') ||
+                            modelLower.includes('gpt-4o') ||
+                            modelLower.includes('gemini') ||
+                            modelLower.includes('llama-3.2-90b-vision') ||
+                            modelLower.includes('llama-3.2-11b-vision');
 
       if (!supportsVision) {
         this.logger.warn(`Model may not support vision: ${modelId}`);
@@ -83,6 +91,26 @@ export class OpenRouterClient {
     try {
       this.logger.debug(`Analyzing image with model: ${this.config.model}`);
 
+      // Validate inputs
+      if (!imageData || imageData.length === 0) {
+        throw new Error('No image data provided');
+      }
+
+      if (!mimeType) {
+        throw new Error('No MIME type provided');
+      }
+
+      // Check image data size (base64 encoded)
+      if (imageData.length > 20 * 1024 * 1024) { // 20MB base64 limit
+        throw new Error(`Image data too large: ${imageData.length} characters. Maximum allowed is 20MB.`);
+      }
+
+      // Validate prompt length
+      const promptText = prompt || 'Analyze this image in detail. Describe what you see, including objects, people, text, and any notable features.';
+      if (promptText.length > 10000) {
+        throw new Error(`Prompt too long: ${promptText.length} characters. Maximum allowed is 10000.`);
+      }
+
       const requestBody = {
         model: this.config.model,
         messages: [
@@ -91,7 +119,7 @@ export class OpenRouterClient {
             content: [
               {
                 type: 'text',
-                text: prompt || 'Analyze this image in detail. Describe what you see, including objects, people, text, and any notable features.',
+                text: promptText,
               },
               {
                 type: 'image_url',
@@ -102,10 +130,17 @@ export class OpenRouterClient {
             ],
           },
         ],
-        max_tokens: options.maxTokens || 4000,
+        max_tokens: Math.min(options.maxTokens || 4000, 8000), // Cap at 8000 tokens
         temperature: options.temperature || 0.1,
         response_format: options.format === 'json' ? { type: 'json_object' } : undefined,
       };
+
+      this.logger.debug(`Sending request to OpenRouter API`, {
+        model: this.config.model,
+        imageSize: imageData.length,
+        promptLength: promptText.length,
+        maxTokens: requestBody.max_tokens,
+      });
 
       const response = await this.client.post('/chat/completions', requestBody);
 
