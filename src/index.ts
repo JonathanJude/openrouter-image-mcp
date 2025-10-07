@@ -2,14 +2,15 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   ListToolsRequestSchema,
+  CallToolRequestSchema,
   Tool,
 } from '@modelcontextprotocol/sdk/types.js';
 import { Config } from './config/index.js';
 import { OpenRouterClient } from './utils/openrouter-client.js';
 import { Logger } from './utils/logger.js';
-import { registerAnalyzeImageTool } from './tools/analyze-image.js';
-import { registerAnalyzeWebpageTool } from './tools/analyze-webpage.js';
-import { registerAnalyzeMobileAppTool } from './tools/analyze-mobile-app.js';
+import { handleAnalyzeImage } from './tools/analyze-image.js';
+import { handleAnalyzeWebpage } from './tools/analyze-webpage.js';
+import { handleAnalyzeMobileApp } from './tools/analyze-mobile-app.js';
 
 async function main() {
   const logger = Logger.getInstance();
@@ -54,11 +55,7 @@ async function main() {
       }
     );
 
-    // Register tools
-    registerAnalyzeImageTool(server);
-    registerAnalyzeWebpageTool(server);
-    registerAnalyzeMobileAppTool(server);
-
+  
     // List tools handler
     server.setRequestHandler(ListToolsRequestSchema, async () => {
       const tools: Tool[] = [
@@ -194,6 +191,39 @@ async function main() {
       ];
 
       return { tools };
+    });
+
+    // Centralized tool call handler
+    server.setRequestHandler(CallToolRequestSchema, async (request) => {
+      const { name, arguments: args } = request.params;
+
+      if (!args) {
+        throw new Error('Arguments are required');
+      }
+
+      try {
+        switch (name) {
+          case 'analyze_image':
+            return await handleAnalyzeImage(args, config, openRouterClient, logger);
+          case 'analyze_webpage_screenshot':
+            return await handleAnalyzeWebpage(args, config, openRouterClient, logger);
+          case 'analyze_mobile_app_screenshot':
+            return await handleAnalyzeMobileApp(args, config, openRouterClient, logger);
+          default:
+            throw new Error(`Unknown tool: ${name}`);
+        }
+      } catch (error) {
+        logger.error(`Tool call failed for ${name}`, error);
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error: ${(error as Error).message}`,
+            },
+          ],
+          isError: true,
+        };
+      }
     });
 
     // Error handling
