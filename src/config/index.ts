@@ -7,7 +7,9 @@ export class Config {
   private serverConfig: ServerConfig;
 
   private constructor() {
-    // Load environment variables from .env file
+    // Load environment variables from .env file (for local development only)
+    // In production (MCP usage), env vars are passed by the MCP client via the config
+    // If .env doesn't exist, dotenv will silently skip it - that's expected
     loadEnv();
     
     this.validateEnvironment();

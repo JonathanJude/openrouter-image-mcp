@@ -28,22 +28,6 @@ async function main() {
     // Initialize OpenRouter client
     const openRouterClient = OpenRouterClient.getInstance(openRouterConfig);
 
-    // Test connection
-    logger.info('Testing OpenRouter API connection...');
-    const connectionTest = await openRouterClient.testConnection();
-    if (!connectionTest) {
-      throw new Error('Failed to connect to OpenRouter API');
-    }
-    logger.info('OpenRouter API connection successful');
-
-    // Validate model
-    logger.info(`Validating model: ${openRouterConfig.model}`);
-    const modelValid = await openRouterClient.validateModel(openRouterConfig.model);
-    if (!modelValid) {
-      throw new Error(`Invalid or unsupported model: ${openRouterConfig.model}`);
-    }
-    logger.info(`Model validation successful: ${openRouterConfig.model}`);
-
     // Create MCP server
     const server = new Server(
       {
@@ -246,7 +230,7 @@ async function main() {
       process.exit(0);
     });
 
-    // Start the server
+    // Start the server - connect FIRST before any validation
     const transport = new StdioServerTransport();
     await server.connect(transport);
 
@@ -254,6 +238,23 @@ async function main() {
     logger.info(`Using model: ${openRouterConfig.model}`);
     logger.info(`Max image size: ${serverConfig.maxImageSize} bytes`);
     logger.info(`Log level: ${serverConfig.logLevel}`);
+
+    // Validate connection and model AFTER connecting (non-blocking for MCP client)
+    logger.info('Testing OpenRouter API connection...');
+    const connectionTest = await openRouterClient.testConnection();
+    if (!connectionTest) {
+      logger.error('Failed to connect to OpenRouter API - tools may not work');
+    } else {
+      logger.info('OpenRouter API connection successful');
+    }
+
+    logger.info(`Validating model: ${openRouterConfig.model}`);
+    const modelValid = await openRouterClient.validateModel(openRouterConfig.model);
+    if (!modelValid) {
+      logger.warn(`Model validation failed: ${openRouterConfig.model} - tools may not work as expected`);
+    } else {
+      logger.info(`Model validation successful: ${openRouterConfig.model}`);
+    }
 
   } catch (error) {
     logger.error('Failed to start server', error);

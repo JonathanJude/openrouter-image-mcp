@@ -1,6 +1,5 @@
-import { readFile } from 'fs/promises';
-import sharp from 'sharp';
 import axios from 'axios';
+import { readFile } from 'fs/promises';
 import { ImageInput } from '../types/index.js';
 import { Logger } from './logger.js';
 
@@ -129,25 +128,8 @@ export class ImageProcessor {
   }
 
   private async detectMimeType(buffer: Buffer): Promise<string> {
-    try {
-      const metadata = await sharp(buffer).metadata();
-
-      switch (metadata.format) {
-        case 'jpeg':
-          return 'image/jpeg';
-        case 'png':
-          return 'image/png';
-        case 'webp':
-          return 'image/webp';
-        case 'gif':
-          return 'image/gif';
-        default:
-          // Fallback detection based on file signature
-          return this.detectFromSignature(buffer);
-      }
-    } catch {
-      return this.detectFromSignature(buffer);
-    }
+    // Use signature-based detection (no native dependencies needed)
+    return this.detectFromSignature(buffer);
   }
 
   private detectFromSignature(buffer: Buffer): string {
