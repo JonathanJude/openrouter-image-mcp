@@ -1,6 +1,6 @@
 {
   "name": "openrouter-image-mcp",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "MCP server for image analysis using OpenRouter's vision models",
   "main": "dist/index.js",
   "bin": {
